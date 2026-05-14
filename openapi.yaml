@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Locare REST APIs
+  version: 1.0.0
+paths:
+  /api/vehicules:
+    get:
+      summary: Liste les véhicules
+      responses:
+        '200':
+          description: Succès
+    post:
+      summary: Crée un véhicule
+      responses:
+        '200':
+          description: Succès
+  /api/conducteurs:
+    get:
+      summary: Liste les conducteurs
+      responses:
+        '200':
+          description: Succès
+    post:
+      summary: Crée un conducteur
+      responses:
+        '200':
+          description: Succès

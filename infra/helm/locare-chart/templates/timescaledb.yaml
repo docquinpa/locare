@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: timescaledb-init-script
+data:
+  init.sql: |
+    CREATE DATABASE localisation;
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: timescaledb
+spec:
+  serviceName: "timescaledb"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timescaledb
+  template:
+    metadata:
+      labels:
+        app: timescaledb
+    spec:
+      containers:
+        - name: timescaledb
+          image: {{ .Values.timescaledb.image }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.timescaledb.username }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.timescaledb.password }}
+          volumeMounts:
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: init-script
+          configMap:
+            name: timescaledb-init-script
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timescaledb
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: timescaledb
+

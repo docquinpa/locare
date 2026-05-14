@@ -1,0 +1,52 @@
+type Vehicle {
+  id: ID!
+  marque: String
+  modele: String
+  immatriculation: String
+  statut: String
+  driverId: ID
+}
+
+type Driver {
+  id: ID!
+  nom: String
+  permis: String
+  expiration: String
+  assignedVehicleId: ID
+}
+
+type Location {
+  vehicleId: ID!
+  latitude: Float
+  longitude: Float
+  timestamp: String
+}
+
+type Query {
+  vehicles: [Vehicle]
+  vehicle(id: ID!): Vehicle
+  drivers: [Driver]
+  driver(id: ID!): Driver
+  vehicleLocationHistory(vehicleId: ID!): [Location]
+}
+
+input VehicleInput {
+  marque: String
+  modele: String
+  immatriculation: String
+  statut: String
+  driverId: ID
+}
+
+input DriverInput {
+  nom: String
+  permis: String
+  expiration: String
+  assignedVehicleId: ID
+}
+
+type Mutation {
+  createVehicle(input: VehicleInput!): Vehicle
+  createDriver(input: DriverInput!): Driver
+  assignDriver(vehicleId: ID!, driverId: ID!): Vehicle
+}

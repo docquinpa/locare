@@ -1,0 +1,49 @@
+global:
+  domain: locare.local
+
+# Databases configurations
+postgres:
+  image: postgres:15-alpine
+  username: postgres
+  password: postgres_password
+
+timescaledb:
+  image: timescale/timescaledb:latest-pg15
+  username: postgres
+  password: timescale_password
+  database: localisation
+
+# Applications
+vehicules:
+  image: locare-vehicules:latest
+  port: 8080
+
+conducteurs:
+  image: locare-conducteurs:latest
+  port: 8081
+
+localisation:
+  image: locare-localisation:v2
+  port: 50051
+
+gateway:
+  image: locare-gateway:latest
+  port: 4000
+
+frontend:
+  image: locare-frontend:latest
+  port: 80
+
+# Infrastructure
+kafka:
+  image: apache/kafka:3.7.0
+  port: 9092
+
+otel:
+  image: otel/opentelemetry-collector-contrib:0.100.0
+
+keycloak:
+  image: quay.io/keycloak/keycloak:24.0.0
+  adminUser: admin
+  adminPassword: admin_password
+  port: 8080

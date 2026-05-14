@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package location;
+
+service LocationService {
+  rpc StreamLocation (stream Location) returns (Ack) {}
+  rpc GetVehicleLocationHistory (VehicleId) returns (LocationHistory) {}
+}
+
+message Location {
+  int64 vehicleId = 1;
+  double latitude = 2;
+  double longitude = 3;
+  string timestamp = 4;
+}
+
+message Ack {
+  bool success = 1;
+  string message = 2;
+}
+
+message VehicleId {
+  int64 id = 1;
+}
+
+message LocationHistory {
+  repeated Location locations = 1;
+}

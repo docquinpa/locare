@@ -1,0 +1,137 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gateway-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`gateway.locare.local`)
+      kind: Rule
+      services:
+        - name: gateway
+          port: 4000
+  tls: {}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: vehicules-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`vehicules.locare.local`)
+      kind: Rule
+      services:
+        - name: vehicules
+          port: 8080
+  tls: {}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: conducteurs-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`conducteurs.locare.local`)
+      kind: Rule
+      services:
+        - name: conducteurs
+          port: 8081
+  tls: {}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: keycloak-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`keycloak.locare.local`)
+      kind: Rule
+      services:
+        - name: keycloak
+          port: 8080
+  tls: {}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jaeger-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`jaeger.locare.local`)
+      kind: Rule
+      services:
+        - name: jaeger
+          port: 16686
+  tls: {}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: frontend-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`frontend.locare.local`)
+      kind: Rule
+      services:
+        - name: frontend
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-route
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`prometheus.locare.local`)
+      kind: Rule
+      services:
+        - name: prometheus-server
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-route
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`grafana.locare.local`)
+      kind: Rule
+      services:
+        - name: grafana
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: loki-route
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`loki.locare.local`)
+      kind: Rule
+      services:
+        - name: loki
+          port: 3100

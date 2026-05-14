@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-realm-config
+data:
+  realm-export.json: |
+    {
+      "realm": "locare",
+      "enabled": true,
+      "clients": [
+        {
+          "clientId": "locare-frontend",
+          "enabled": true,
+          "publicClient": true,
+          "standardFlowEnabled": true,
+          "implicitFlowEnabled": true,
+          "directAccessGrantsEnabled": true,
+          "redirectUris": [
+            "*"
+          ],
+          "webOrigins": ["+"]
+        },
+        {
+          "clientId": "locare-gateway",
+          "enabled": true,
+          "publicClient": false,
+          "bearerOnly": true
+        }
+      ],
+      "roles": {
+        "realm": [
+          { "name": "admin" },
+          { "name": "user" }
+        ]
+      },
+      "users": [
+        {
+          "username": "admin",
+          "enabled": true,
+          "credentials": [{ "type": "password", "value": "admin", "temporary": false }],
+          "realmRoles": ["admin"]
+        },
+        {
+          "username": "user",
+          "enabled": true,
+          "credentials": [{ "type": "password", "value": "user", "temporary": false }],
+          "realmRoles": ["user"]
+        }
+      ]
+    }

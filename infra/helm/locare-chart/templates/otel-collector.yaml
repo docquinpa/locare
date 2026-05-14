@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-conf
+data:
+  otel-collector-config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+      batch:
+    exporters:
+      logging:
+        verbosity: detailed
+      otlp/jaeger:
+        endpoint: jaeger:4317
+        tls:
+          insecure: true
+      prometheus:
+        endpoint: "0.0.0.0:8889"
+        send_timestamps: true
+      loki:
+        endpoint: "http://loki:3100/loki/api/v1/push"
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, otlp/jaeger]
+        metrics:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, prometheus]
+        logs:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, loki]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8889"
+    spec:
+      containers:
+        - name: otel-collector
+          image: {{ .Values.otel.image }}
+          args:
+            - "--config=/conf/otel-collector-config.yaml"
+          volumeMounts:
+            - name: otel-collector-config-vol
+              mountPath: /conf
+          ports:
+            - containerPort: 4317
+            - containerPort: 4318
+            - containerPort: 8889
+      volumes:
+        - name: otel-collector-config-vol
+          configMap:
+            name: otel-collector-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+spec:
+  ports:
+    - name: otlp-grpc
+      port: 4317
+    - name: otlp-http
+      port: 4318
+    - name: prometheus
+      port: 8889
+  selector:
+    app: otel-collector

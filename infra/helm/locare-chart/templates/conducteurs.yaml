@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conducteurs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: conducteurs
+  template:
+    metadata:
+      labels:
+        app: conducteurs
+    spec:
+      containers:
+        - name: conducteurs
+          image: {{ .Values.conducteurs.image }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.conducteurs.port }}
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: conducteurs_db
+            - name: DB_USER
+              value: {{ .Values.postgres.username }}
+            - name: DB_PASSWORD
+              value: {{ .Values.postgres.password }}
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: kafka:9092
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://otel-collector:4317"
+            - name: OTEL_SERVICE_NAME
+              value: "conducteurs-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conducteurs
+spec:
+  ports:
+    - port: {{ .Values.conducteurs.port }}
+  selector:
+    app: conducteurs

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: localisation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: localisation
+  template:
+    metadata:
+      labels:
+        app: localisation
+    spec:
+      containers:
+        - name: localisation
+          image: {{ .Values.localisation.image }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.localisation.port }}
+          env:
+            - name: DB_HOST
+              value: timescaledb
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: {{ .Values.timescaledb.username }}
+            - name: DB_PASSWORD
+              value: {{ .Values.timescaledb.password }}
+            - name: DB_NAME
+              value: {{ .Values.timescaledb.database }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "grpc://otel-collector:4317"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: localisation
+spec:
+  ports:
+    - port: {{ .Values.localisation.port }}
+  selector:
+    app: localisation
