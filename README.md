@@ -14,6 +14,7 @@ Locare est une plateforme de gestion de flotte de véhicules moderne, basée sur
 - [Guide d'Installation & Setup](./docs/INSTALL.md)
 - [Manuel Utilisateur](./docs/USER_GUIDE.md)
 - [Documentation API](./docs/API.md)
+- [Guide de Simulation](./docs/SIMULATION.md)
 - [Architecture Technique](./docs/ARCHITECTURE.md)
 - [Architectural Decision Records (ADR)](./docs/ADR.md)
 
