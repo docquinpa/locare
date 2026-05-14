@@ -16,11 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Set up JDK 17
+    - name: Set up JDK 21
       if: contains(matrix.service, 'services/') && !contains(matrix.service, 'alertes') && !contains(matrix.service, 'localisation')
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
         cache: maven
 
