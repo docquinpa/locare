@@ -1,4 +1,4 @@
-# 🛠️ Guide d'Installation Locare
+# Guide d'Installation Locare
 
 Ce guide détaille les étapes pour déployer l'infrastructure complète sur un cluster local (Minikube).
 
@@ -8,7 +8,7 @@ Ce guide détaille les étapes pour déployer l'infrastructure complète sur un 
 - **Docker** local configuré pour minikube (`eval $(minikube docker-env)`).
 - **OpenSSL** (pour la génération éventuelle de certificats).
 
-## ⚙️ Étapes de Déploiement
+## Étapes de Déploiement
 
 1.  **Préparation du cluster** :
     ```bash

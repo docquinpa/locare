@@ -16,6 +16,22 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
+    - name: Set up JDK 17
+      if: contains(matrix.service, 'services/') && !contains(matrix.service, 'alertes') && !contains(matrix.service, 'localisation')
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Run Java Tests
+      if: contains(matrix.service, 'services/') && !contains(matrix.service, 'alertes') && !contains(matrix.service, 'localisation')
+      run: cd ${{ matrix.service }} && mvn test
+
+    - name: Run Node Tests
+      if: matrix.service == 'services/alertes'
+      run: cd ${{ matrix.service }} && npm install && npm test
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
       

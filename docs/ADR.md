@@ -1,4 +1,4 @@
-# 🏗️ Architectural Decision Records (ADR) - Locare
+# Architectural Decision Records (ADR) - Locare
 
 Ce document récapitule les choix technologiques majeurs effectués pour la plateforme Locare.
 

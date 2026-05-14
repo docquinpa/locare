@@ -4,16 +4,20 @@
   "description": "Locare - Service Alertes",
   "main": "index.js",
   "scripts": {
-    "start": "node -r ./tracing.js index.js"
+    "start": "node -r ./tracing.js index.js",
+    "test": "jest"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.8.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.44.0",
+    "@opentelemetry/exporter-metrics-otlp-grpc": "^0.50.0",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.50.0",
+    "@opentelemetry/sdk-node": "^0.50.0",
     "express": "^4.19.2",
     "kafkajs": "^2.2.4",
-    "pg": "^8.11.5",
-    "@opentelemetry/api": "^1.8.0",
-    "@opentelemetry/sdk-node": "^0.50.0",
-    "@opentelemetry/auto-instrumentations-node": "^0.44.0",
-    "@opentelemetry/exporter-trace-otlp-grpc": "^0.50.0",
-    "@opentelemetry/exporter-metrics-otlp-grpc": "^0.50.0"
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2"
   }
 }

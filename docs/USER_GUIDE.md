@@ -1,4 +1,4 @@
-# 👤 Manuel Utilisateur - Locare Fleet
+# Manuel Utilisateur - Locare Fleet
 
 Bienvenue dans l'interface de gestion Locare. Ce guide vous explique comment réaliser les opérations courantes.
 
