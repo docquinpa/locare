@@ -6,6 +6,8 @@ data:
   init.sql: |
     CREATE DATABASE vehicules_db;
     CREATE DATABASE conducteurs_db;
+    CREATE DATABASE maintenance_db;
+    CREATE DATABASE alertes_db;
 ---
 apiVersion: apps/v1
 kind: StatefulSet

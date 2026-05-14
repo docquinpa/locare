@@ -22,12 +22,33 @@ type Location {
   timestamp: String
 }
 
+type Maintenance {
+  id: ID!
+  vehicleId: ID!
+  dateDebut: String
+  dateFin: String
+  type: String
+  cout: Float
+  description: String
+  status: String
+}
+
+type Alerte {
+  id: ID!
+  vehicleId: ID
+  type: String
+  message: String
+  timestamp: String
+}
+
 type Query {
   vehicles: [Vehicle]
   vehicle(id: ID!): Vehicle
   drivers: [Driver]
   driver(id: ID!): Driver
   vehicleLocationHistory(vehicleId: ID!): [Location]
+  maintenance(vehicleId: ID!): [Maintenance]
+  alertes(vehicleId: ID): [Alerte]
 }
 
 input VehicleInput {
@@ -45,8 +66,18 @@ input DriverInput {
   assignedVehicleId: ID
 }
 
+input MaintenanceInput {
+  vehicleId: ID!
+  type: String
+  description: String
+  cout: Float
+  dateDebut: String
+}
+
 type Mutation {
   createVehicle(input: VehicleInput!): Vehicle
   createDriver(input: DriverInput!): Driver
   assignDriver(vehicleId: ID!, driverId: ID!): Vehicle
+  createMaintenance(input: MaintenanceInput!): Maintenance
+  closeMaintenance(id: ID!): Maintenance
 }

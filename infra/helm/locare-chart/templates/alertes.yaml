@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertes
+  template:
+    metadata:
+      labels:
+        app: alertes
+    spec:
+      containers:
+        - name: alertes
+          image: {{ .Values.alertes.image }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8083
+          env:
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_NAME
+              value: "alertes_db"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASSWORD
+              value: "postgres_password"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka:9092"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "grpc://otel-collector:4317"
+            - name: OTEL_SERVICE_NAME
+              value: "alertes-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertes
+  labels:
+    app: alertes
+spec:
+  ports:
+    - port: 8083
+      targetPort: 8083
+      name: http
+  selector:
+    app: alertes
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: alertes
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`alertes.{{ .Values.global.domain }}`)
+      kind: Rule
+      services:
+        - name: alertes
+          port: 8083
+  tls:
+    certResolver: myresolver

@@ -11,27 +11,21 @@ else
     echo "✅ Minikube est déjà en cours d'exécution."
 fi
 
-# 2. Configuration de l'environnement Docker pour utiliser celui de Minikube
-echo "🐳 Connexion au démon Docker de Minikube..."
+# 2. Build des images Docker
+echo "🏗️  Construction des images Docker..."
 eval $(minikube docker-env)
 
-# 3. Build des images Docker locales
-echo "📦 Build des images Docker (cela peut prendre quelques minutes lors du premier lancement)..."
+docker build -t locare-vehicules:latest ./services/vehicules
+docker build -t locare-conducteurs:latest ./services/conducteurs
+docker build -t locare-localisation:v2 ./services/localisation
+docker build -t locare-maintenance:latest ./services/maintenance
+docker build -t locare-alertes:latest ./services/alertes
+docker build -t locare-gateway:latest ./gateway
+docker build -t locare-frontend:latest ./frontend
 
-echo "  -> Build vehicules..."
-(cd services/vehicules && docker build -t locare-vehicules:latest .)
-
-echo "  -> Build conducteurs..."
-(cd services/conducteurs && docker build -t locare-conducteurs:latest .)
-
-echo "  -> Build localisation..."
-(cd services/localisation && docker build -t locare-localisation:latest .)
-
-echo "  -> Build gateway..."
-(cd gateway && docker build -t locare-gateway:latest .)
-
-echo "  -> Build frontend..."
-(cd frontend && docker build -t locare-frontend:latest .)
+# 3. Déploiement Helm
+echo "⛵ Déploiement du Chart Helm..."
+helm upgrade --install locare ./infra/helm/locare-chart --wait
 
 # 4. Installation de la Stack d'Observabilité
 echo "📊 Déploiement de l'Observabilité (Prometheus, Grafana, Loki)..."

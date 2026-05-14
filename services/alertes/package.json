@@ -1,0 +1,19 @@
+{
+  "name": "alertes-service",
+  "version": "1.0.0",
+  "description": "Locare - Service Alertes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r ./tracing.js index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "kafkajs": "^2.2.4",
+    "pg": "^8.11.5",
+    "@opentelemetry/api": "^1.8.0",
+    "@opentelemetry/sdk-node": "^0.50.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.44.0",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.50.0",
+    "@opentelemetry/exporter-metrics-otlp-grpc": "^0.50.0"
+  }
+}

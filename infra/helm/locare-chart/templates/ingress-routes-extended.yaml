@@ -1,0 +1,51 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: maintenance-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`maintenance.locare.local`)
+      kind: Rule
+      services:
+        - name: maintenance
+          port: 8082
+  tls:
+    certResolver: myresolver
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: alertes-route
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`alertes.locare.local`)
+      kind: Rule
+      services:
+        - name: alertes
+          port: 8083
+  tls:
+    certResolver: myresolver
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-route-secure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grafana.locare.local`)
+      kind: Rule
+      services:
+        - name: grafana
+          port: 80
+  tls:
+    certResolver: myresolver

@@ -1,0 +1,26 @@
+name: Locare CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [gateway, frontend, services/vehicules, services/conducteurs, services/maintenance, services/alertes, services/localisation]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
+    - name: Build Service Image
+      run: |
+        echo "Building ${{ matrix.service }}..."
+        cd ${{ matrix.service }}
+        docker build . --file Dockerfile --tag locare-${{ matrix.service }}:test

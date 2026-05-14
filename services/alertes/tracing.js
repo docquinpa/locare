@@ -1,0 +1,17 @@
+const opentelemetry = require('@opentelemetry/sdk-node');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-grpc');
+const { OTLPMetricExporter } = require('@opentelemetry/exporter-metrics-otlp-grpc');
+
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter: new OTLPTraceExporter({
+    url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'grpc://otel-collector:4317',
+  }),
+  metricExporter: new OTLPMetricExporter({
+    url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'grpc://otel-collector:4317',
+  }),
+  instrumentations: [getNodeAutoInstrumentations()],
+  serviceName: 'alertes-service',
+});
+
+sdk.start();

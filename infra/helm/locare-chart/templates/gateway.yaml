@@ -25,6 +25,10 @@ spec:
               value: "http://conducteurs:8081/api/conducteurs"
             - name: LOCATION_SERVICE_URL
               value: "localisation:50051"
+            - name: MAINTENANCE_SERVICE_URL
+              value: "http://maintenance:8082/api/maintenance"
+            - name: ALERTES_SERVICE_URL
+              value: "http://alertes:8083/api/alertes"
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: "grpc://otel-collector:4317"
 ---

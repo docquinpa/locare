@@ -30,7 +30,8 @@ data:
       "roles": {
         "realm": [
           { "name": "admin" },
-          { "name": "user" }
+          { "name": "user" },
+          { "name": "ingenieur" }
         ]
       },
       "users": [
@@ -45,6 +46,12 @@ data:
           "enabled": true,
           "credentials": [{ "type": "password", "value": "user", "temporary": false }],
           "realmRoles": ["user"]
+        },
+        {
+          "username": "engineer",
+          "enabled": true,
+          "credentials": [{ "type": "password", "value": "engineer", "temporary": false }],
+          "realmRoles": ["ingenieur"]
         }
       ]
     }

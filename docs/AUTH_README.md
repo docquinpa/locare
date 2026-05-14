@@ -1,6 +1,5 @@
 # Guide Authentification Keycloak & GraphQL
 
-L'authentification OIDC PKCE a été mise en place avec succès sur le Frontend et la Gateway GraphQL !
 
 ## Déploiement
 

@@ -26,6 +26,12 @@ localisation:
   image: locare-localisation:v2
   port: 50051
 
+maintenance:
+  image: locare-maintenance:latest
+
+alertes:
+  image: locare-alertes:latest
+
 gateway:
   image: locare-gateway:latest
   port: 4000
